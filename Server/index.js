@@ -40,16 +40,19 @@ app.get(
       expiresIn: "1d",
     });
 
+    const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
     // Redirect to frontend with token
-    res.redirect(`http://localhost:5173/login-success?token=${token}`);
+    res.redirect(`${CLIENT_URL}/login-success?token=${token}`);
   }
 );
 
 const rooms = {};
 
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: CLIENT_URL,
     methods: ["GET", "POST"],
   },
 });
@@ -109,8 +112,9 @@ socket.on("clear-board", ({ roomId }) => {
 
 });
 
-server.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 

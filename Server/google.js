@@ -7,10 +7,10 @@ passport.use(
     {
       clientID: "896509075887-s1vmoh66usqk66gv0q2qvm9aenrdbdvm.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "/auth/google/callback",
+      callbackURL: process.env.SERVER_URL ? `${process.env.SERVER_URL}/auth/google/callback` : "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-     
+
       const user = {
         id: profile.id,
         name: profile.displayName,
@@ -19,8 +19,8 @@ passport.use(
       };
       console.log("Hello");
       console.log(user);
-     console.log("FULL GOOGLE PROFILE:", profile);
-    console.log("PROFILE PHOTOS:", profile.photos);
+      console.log("FULL GOOGLE PROFILE:", profile);
+      console.log("PROFILE PHOTOS:", profile.photos);
       return done(null, user);
     }
   )
